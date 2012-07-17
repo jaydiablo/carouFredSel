@@ -1494,6 +1494,21 @@ if (opts.responsive) {
 				return $removed;
 			});
 
+			//  refresh event (experimental)
+            $cfs.bind(cf_e('refresh', conf), function(e) {
+                e.stopPropagation();
+
+                itms.total = $cfs.children().length;
+
+                var sz = $cfs.triggerHandler('updateSizes');
+                nv_showNavi(opts, itms.total, conf);
+                nv_enableNavi(opts, itms.first, conf);
+                $cfs.trigger(cf_e('linkAnchors', conf));
+                $cfs.trigger(cf_e('updatePageStatus', conf), [true, sz]);
+
+                return true; 
+            });
+
 			//	onBefore and onAfter event
 			$cfs.bind(cf_e('onBefore', conf)+' '+cf_e('onAfter', conf), function(e, fn) {
 				e.stopPropagation();
